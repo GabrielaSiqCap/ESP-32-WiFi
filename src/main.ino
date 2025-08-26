@@ -6,6 +6,7 @@
 const char* ssid = "Rede";
 const char* password = "123456789";
 
+
 // configuração do Broker MQTT
 const char* mqttServer = "broker.hivemq.com"; // Endereço do broker publico 
 const int mqttPort = 1883; // porta padrão MQTT
@@ -25,8 +26,13 @@ PubSubClient client ( espClient ); // Cliente MQTT usando WiFi
 unsigned long lastMsg = 0; //Armazenar o tempo da ultima mensagem enviada
 const long interval = 2000; // Intervalo entre publicações (2 segundos)
 
+const int pinoLed = 2; // Pino do LED embutido no ESP32
+
 void setup_wifi() {
   delay(10);  // Pequeno atraso inicial
+
+// Configurar o pinoLed como saída
+  pinMode(pinoLed, OUTPUT);  
   Serial.println("Conectando ao WiFi...");
   WiFi.begin(ssid, password); // Inicia conexão Wi-Fi
   while (WiFi.status() != WL_CONNECTED) { // Aguarda até conectar
@@ -60,6 +66,11 @@ void setup(){
 }
 
 void loop(){
+   if(WiFi.status() == WL_CONNECTED){
+      digitalWrite(pinoLed, HIGH);
+    }else{
+      digitalWrite(pinoLed, LOW);
+    }
   if(!client.connected()){ //verifca se está conectado ao broker
     reconnect(); //se não estiver, tenta reconectar
   }
