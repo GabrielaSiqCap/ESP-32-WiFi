@@ -74,7 +74,7 @@ void loop(){
     float t = dht.readTemperature();
 
     if(isnan(h) || isnan(t)){ // Verifica se houve erro na leitura
-        Serial.println("Erro ao ler Sensor DHT22.");
+        Serial.println("Erro ao ler Sensor DHT11.");
         return; // Sai da função se houver erro 
     }
 
